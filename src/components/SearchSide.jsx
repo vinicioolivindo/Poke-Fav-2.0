@@ -3,12 +3,13 @@ import { Search } from "lucide-react";
 import Input from "./Input";
 
 // eslint-disable-next-line react/prop-types
-const SearchSide = () => {
+const SearchSide = ({ value, setValue, onClick }) => {
   return (
     <div className="w-full flex gap-3">
-      <Input />
-      <Button icon={<Search />} />
+      <Input value={value} onChange={(e) => setValue(e.target.value)} />
+      <Button onClick={onClick} content={<Search />} />
     </div>
-  )
-}
+  );
+};
+
 export default SearchSide;

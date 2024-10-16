@@ -1,9 +1,10 @@
 // eslint-disable-next-line react/prop-types
-const Button = ({icon}) => {
+const Button = ({content, onClick}) => {
   return (
-    <button 
-    className="rounded-xl p-3 text-slate-50 bg-red-600 "> 
-      {icon}
+    <button onClick={onClick} 
+    className="rounded-lg px-3 py-1 text-slate-50 bg-red-600 shadow-md"> 
+      {content}
+    
     </button>
   )
 }
