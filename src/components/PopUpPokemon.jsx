@@ -2,8 +2,7 @@
 
 import Button from "./Button";
 
-// eslint-disable-next-line react/prop-types
-const PopUpPokemon = ({ id, name, type, image, description, height, weight, stats, abilities, onClickExit, onClickAdd }) => {
+const PopUpPokemon = ({ id, name, types, image, description, height, weight, stats, abilities, onClickExit, onClickAdd }) => {
 
     const statNames = {
         hp: 'HP',
@@ -25,24 +24,23 @@ const PopUpPokemon = ({ id, name, type, image, description, height, weight, stat
 
     return (
         <div className="fixed  inset-0 flex items-center justify-center bg-black/40 z-10">
-            <div className="bg-white p-8 rounded-lg  shadow-lg w-10/12 h-5/6 overflow-scroll">
+            <div className="bg-white p-8 rounded-lg  shadow-lg w-10/12 h-5/6 overflow-scroll block md:flex md:flex-row gap-8 max-w-3xl md:h-auto">
 
-                <div className="flex gap-2 mb-1">
-                    <Button onClick={onClickExit} content='Sair' />
-                    <Button onClick={onClickAdd} content='Adicionar ao time'/>
+                <div className="block md:flex flex-col items-center">
+                    <div className="flex gap-2 mb-1">
+                        <Button onClick={onClickExit} content='Sair' />
+                        <Button onClick={onClickAdd} content='Adicionar ao time' />
+                    </div>
+                    <img className="m-auto w-36 md:w-56" src={image} alt={`imagem de ${name}`} />
                 </div>
 
-                <div>
-                    <img className="m-auto w-36" src={image} alt={`imagem de ${name}`} />
-                </div>
-
-                <div>
+                <div className="flex-1">
                     <h4 className="font-semibold">#{id}</h4>
 
                     <h1 className="text-3xl font-bold">{name}</h1>
 
                     <div className="flex gap-2 my-2">
-                        {type}
+                        {types}
                     </div>
 
                     <p className="text-sm">{description}</p>
@@ -76,7 +74,11 @@ const PopUpPokemon = ({ id, name, type, image, description, height, weight, stat
                     <h2 className="text-xl font-semibold mt-3 mb-1">Abilities</h2>
 
                     <div className="flex gap-2">
-                        {abilities}
+                        {abilities.map((ability, index) => (
+                            <span key={index} className="bg-slate-200 px-2 py-1 rounded-lg font-semibold">
+                                {ability}
+                            </span>
+                        ))}
                     </div>
 
                 </div>
