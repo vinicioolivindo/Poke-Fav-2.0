@@ -10,17 +10,17 @@ const App = () => {
   const [inputValue, setInputValue] = useState("");
   const [statePopUp, setStatePopUp] = useState(false);
   const [dataPokemon, setDataPokemon] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
+  const [showAddButton, setShowAddButton] = useState(true);
+
 
   const [myTeam, setMyTeam] = useState(() => {
     const storedTeam = localStorage.getItem("myTeam");
     return storedTeam ? JSON.parse(storedTeam) : [];
   });
-  
+
   useEffect(() => {
     localStorage.setItem("myTeam", JSON.stringify(myTeam));
   }, [myTeam]);
-  
 
   const toUpperFirstLetter = (name) => {
     return name
@@ -55,12 +55,11 @@ const App = () => {
         height: entrie.height,
         stats: entrie.stats,
         abilities: entrie.abilities.map((abilityName) => abilityName.ability.name)
-      }
+      };
       setDataPokemon(infos);
-      setErrorMessage(""); // Limpa mensagem de erro
     } catch (error) {
-      setErrorMessage(error.message); 
-      setInputValue(""); 
+      alert(error.message);
+      setInputValue("");
     }
   }
 
@@ -72,13 +71,33 @@ const App = () => {
 
       setMyTeam([...myTeam, dataPokemon]);
     } catch (error) {
-      setErrorMessage(error.message);
+      alert(error.message);
     }
   };
 
-  const handleClick = () => {
-    setStatePopUp(!statePopUp); // Alterna o estado do pop-up
+  const removePokemonMyTeam = (pokemon) => {
+    const isOk = confirm("Deseja mesmo remover?");
+    if (isOk) {
+      const filteredPokemons = myTeam.filter((poke) => poke.name !== pokemon.name);
+      setMyTeam(filteredPokemons);
+    }
   };
+
+
+  const handleClick = (pokemon) => {
+    const pokemonInMyTeam = myTeam.some((teamMember) => teamMember.id === pokemon.id);
+    setDataPokemon(pokemon);
+    setStatePopUp(true);
+    setShowAddButton(!pokemonInMyTeam); // Se estiver no time, não mostra o botão
+  };
+
+
+  const closePopUp = () => {
+    setStatePopUp(false); // Fecha o pop-up
+    setDataPokemon({}); // Opcional: limpa os dados do Pokémon exibido
+  };
+
+
 
   const isEmptyDataPokemon = (obj) => Object.keys(obj).length === 0;
   const isEmptyMyTeam = (verifMyTeam) => verifMyTeam.length === 0;
@@ -96,10 +115,12 @@ const App = () => {
           height={dataPokemon.height}
           stats={dataPokemon.stats}
           abilities={dataPokemon.abilities || []}
-          onClickExit={handleClick}
+          onClickExit={closePopUp}
           onClickAdd={addEntrieInMyTeam}
+          showAddButton={showAddButton} // Passa a flag para controlar a exibição do botão
         />
       )}
+
 
       <img src={imgLogo} className="m-auto lg:w-96 w-3/6" />
 
@@ -113,23 +134,20 @@ const App = () => {
             }}
           />
 
-          {errorMessage && (
-            <div className="text-red-500">{errorMessage}</div> // Exibe mensagem de erro
-          )}
-
           <CardPokemon
             isEmpty={isEmptyDataPokemon(dataPokemon)}
             onClickHeart={addEntrieInMyTeam}
-            onClickVerMais={handleClick}
+            onClickVerMais={() => handleClick(dataPokemon)} // Passa o Pokémon para o pop-up
             id={dataPokemon.id}
             name={dataPokemon.name}
-            types={dataPokemon.types || []} // Garante que types seja um array
+            types={dataPokemon.types || []}
             description={dataPokemon.description}
             image={dataPokemon.image}
           />
+
         </div>
 
-        <div className="flex md:justify-end justify-normal gap-3 relative pt-10 flex-wrap">
+        <div className="flex md:justify-end justify-center gap-3 relative pt-10 flex-wrap">
           <h1 className="text-2xl font-bold absolute top-0 left-0 md:left-auto">My Team</h1>
 
           {isEmptyMyTeam(myTeam) ? (
@@ -138,19 +156,22 @@ const App = () => {
               <BookmarkX />
             </div>
           ) : (
-            myTeam.map((item) => (
+            myTeam.map((pokemon) => (
               <CardPokemon
-                key={item.id}
+                key={pokemon.id}
                 itemInMyTeam={true}
-                id={item.id}
-                name={item.name}
-                types={item.types}
-                description={item.description}
-                image={item.image}
+                id={pokemon.id}
+                name={pokemon.name}
+                types={pokemon.types}
+                description={pokemon.description}
+                image={pokemon.image}
+                onClickVerMais={() => handleClick(pokemon)}
+                onClickRemovePokemon={() => removePokemonMyTeam(pokemon)} // Passa o Pokémon específico aqui
               />
             ))
           )}
         </div>
+
       </div>
     </div>
   );

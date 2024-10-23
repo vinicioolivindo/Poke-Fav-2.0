@@ -2,7 +2,7 @@
 const Button = ({content, onClick}) => {
   return (
     <button onClick={onClick} 
-    className="rounded-lg px-3 py-1 text-slate-50 bg-red-600 shadow-md"> 
+    className="rounded-lg px-2 py-1 text-slate-50 bg-red-600 shadow-md"> 
       {content}
     
     </button>

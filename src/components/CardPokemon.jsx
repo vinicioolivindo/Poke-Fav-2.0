@@ -1,10 +1,10 @@
 /* eslint-disable react/prop-types */
 import clsx from "clsx";
 import Button from "./Button";
-import { Heart, SearchX } from "lucide-react";
+import { Heart, Plus, SearchX, X } from "lucide-react";
 
 // eslint-disable-next-line react/prop-types
-const CardPokemon = ({ id, name, types, image, description, itemInMyTeam = false, onClickHeart, onClickVerMais, isEmpty }) => {
+const CardPokemon = ({ id, name, types, image, description, itemInMyTeam = false, onClickHeart, onClickVerMais, isEmpty, onClickRemovePokemon }) => {
 
     const typeColors = {
         fire: 'bg-red-500',
@@ -39,7 +39,7 @@ const CardPokemon = ({ id, name, types, image, description, itemInMyTeam = false
             </div>
             <div className={clsx(
                 "px-4 py-3 rounded-lg bg-stone-50/50 justify-between",
-                itemInMyTeam ? "flex-none w-40" : "flex gap-3",
+                itemInMyTeam ? "flex-none " : "flex gap-3",
                 isEmpty ? "hidden" : "block"
             )}>
                 <div>
@@ -48,7 +48,7 @@ const CardPokemon = ({ id, name, types, image, description, itemInMyTeam = false
                             {types.map((type, index) => {
                                 const typeClass = typeColors[type] || 'bg-gray-300';
                                 return (
-                                    <span key={index} className={`px-2 py-1 rounded-lg text-white font-semibold ${typeClass}`}>
+                                    <span key={index} className={`px-2 py-1 rounded-lg text-white text-xs font-semibold ${typeClass}`}>
                                         {type}
                                     </span>
                                 );
@@ -72,13 +72,23 @@ const CardPokemon = ({ id, name, types, image, description, itemInMyTeam = false
                     }
                 </div>
                 <div className="flex flex-col ">
-                    <h2 className={clsx("font-bold text-gray-800",
+                    <h2 className={clsx("font-bold text-sm text-gray-800",
                         {
                             "flex justify-end": !itemInMyTeam
                         }
                     )}>#{id}</h2>
                     <img className="w-28 flex " src={image} alt={`imagem de ${name}`} />
                 </div>
+
+                <div className={clsx("mt-2 flex gap-2",
+                    {
+                        "hidden": !itemInMyTeam
+                    }
+                )}>
+                    <Button onClick={onClickRemovePokemon} content={<X  size={13}/>}/>
+                    <Button onClick={onClickVerMais} content={<Plus size={13}/>}/>
+                </div>
+
             </div>
         </div>
     )
