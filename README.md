@@ -1,8 +1,22 @@
-# React + Vite
+# Poke-Fav 2.0 🎮
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+[**Acesse o Poke-Fav 2.0 aqui**](https://poke-fav.vercel.app)
 
-Currently, two official plugins are available:
+**Poke-Fav 2.0** é uma aplicação web que permite aos usuários pesquisar por Pokémon e criar uma lista personalizada de favoritos. Utilizando a API PokéAPI, a plataforma oferece detalhes e tipos de cada Pokémon encontrado.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Funcionalidades
+- 🔍 **Busca dinâmica** de Pokémon por nome.
+- 🌟 **Favoritar e desfavoritar Pokémon** facilmente.
+- 🗂️ **Lista de favoritos** com exibição clara.
+- 📦 **Estado persistente** utilizando armazenamento local.
+- ⚡ **Interface rápida** e responsiva.
+
+## 🛠️ Tecnologias
+- **React**  
+- **Vite**  
+- **TailwindCSS**  
+- **PokéAPI**  
+- **LocalStorage**
+
+## 📄 Licença
+Este projeto está licenciado sob a MIT License.
